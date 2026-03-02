@@ -68,11 +68,6 @@ class ContentProductAbstractListTwigFunctionProvider extends TwigFunctionProvide
      */
     protected $contentProductAbstractReader;
 
-    /**
-     * @param \Twig\Environment $twig
-     * @param string $localeName
-     * @param \SprykerShop\Yves\ContentProductWidget\Reader\ContentProductAbstractReaderInterface $contentProductAbstractReader
-     */
     public function __construct(
         Environment $twig,
         string $localeName,
@@ -83,17 +78,11 @@ class ContentProductAbstractListTwigFunctionProvider extends TwigFunctionProvide
         $this->contentProductAbstractReader = $contentProductAbstractReader;
     }
 
-    /**
-     * @return string
-     */
     public function getFunctionName(): string
     {
         return static::FUNCTION_CONTENT_PRODUCT_ABSTRACT_LIST;
     }
 
-    /**
-     * @return callable
-     */
     public function getFunction(): callable
     {
         return function (string $contentKey, string $templateIdentifier): string {
@@ -121,9 +110,6 @@ class ContentProductAbstractListTwigFunctionProvider extends TwigFunctionProvide
         };
     }
 
-    /**
-     * @return array
-     */
     protected function getAvailableTemplates(): array
     {
         return [
@@ -132,31 +118,16 @@ class ContentProductAbstractListTwigFunctionProvider extends TwigFunctionProvide
         ];
     }
 
-    /**
-     * @param string $contentKey
-     *
-     * @return string
-     */
     protected function getMessageProductAbstractNotFound(string $contentKey): string
     {
         return sprintf(static::MESSAGE_CONTENT_PRODUCT_ABSTRACT_LIST_NOT_FOUND, $contentKey);
     }
 
-    /**
-     * @param string $templateIdentifier
-     *
-     * @return string
-     */
     protected function getMessageProductAbstractWrongTemplate(string $templateIdentifier): string
     {
         return sprintf(static::MESSAGE_NOT_SUPPORTED_TEMPLATE, $templateIdentifier);
     }
 
-    /**
-     * @param string $contentKey
-     *
-     * @return string
-     */
     protected function getMessageProductAbstractWrongType(string $contentKey): string
     {
         return sprintf(static::MESSAGE_WRONG_CONTENT_PRODUCT_ABSTRACT_LIST_TYPE, $contentKey);

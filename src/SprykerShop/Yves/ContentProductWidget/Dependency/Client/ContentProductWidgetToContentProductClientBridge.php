@@ -24,12 +24,6 @@ class ContentProductWidgetToContentProductClientBridge implements ContentProduct
         $this->contentProductClient = $contentProductClient;
     }
 
-    /**
-     * @param string $contentKey
-     * @param string $localeName
-     *
-     * @return \Generated\Shared\Transfer\ContentProductAbstractListTypeTransfer|null
-     */
     public function executeProductAbstractListTypeByKey(string $contentKey, string $localeName): ?ContentProductAbstractListTypeTransfer
     {
         return $this->contentProductClient->executeProductAbstractListTypeByKey($contentKey, $localeName);

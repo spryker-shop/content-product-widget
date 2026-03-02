@@ -19,12 +19,6 @@ use Twig\TwigFunction;
 
 class ContentProductWidgetFactory extends AbstractFactory
 {
-    /**
-     * @param \Twig\Environment $twig
-     * @param string $localeName
-     *
-     * @return \Spryker\Shared\Twig\TwigFunctionProvider
-     */
     public function createContentProductAbstractListTwigFunctionProvider(Environment $twig, string $localeName): TwigFunctionProvider
     {
         return new ContentProductAbstractListTwigFunctionProvider(
@@ -34,12 +28,6 @@ class ContentProductWidgetFactory extends AbstractFactory
         );
     }
 
-    /**
-     * @param \Twig\Environment $twig
-     * @param string $localeName
-     *
-     * @return \Twig\TwigFunction
-     */
     public function createContentProductAbstractListTwigFunction(Environment $twig, string $localeName): TwigFunction
     {
         $functionProvider = $this->createContentProductAbstractListTwigFunctionProvider($twig, $localeName);
@@ -51,9 +39,6 @@ class ContentProductWidgetFactory extends AbstractFactory
         );
     }
 
-    /**
-     * @return \SprykerShop\Yves\ContentProductWidget\Reader\ContentProductAbstractReaderInterface
-     */
     public function createContentProductAbstractReader(): ContentProductAbstractReaderInterface
     {
         return new ContentProductAbstractReader(
@@ -62,17 +47,11 @@ class ContentProductWidgetFactory extends AbstractFactory
         );
     }
 
-    /**
-     * @return \SprykerShop\Yves\ContentProductWidget\Dependency\Client\ContentProductWidgetToContentProductClientBridgeInterface
-     */
     public function getContentProductClient(): ContentProductWidgetToContentProductClientBridgeInterface
     {
         return $this->getProvidedDependency(ContentProductWidgetDependencyProvider::CLIENT_CONTENT_PRODUCT);
     }
 
-    /**
-     * @return \SprykerShop\Yves\ContentProductWidget\Dependency\Client\ContentProductWidgetToProductStorageClientBridgeInterface
-     */
     public function getProductStorageClient(): ContentProductWidgetToProductStorageClientBridgeInterface
     {
         return $this->getProvidedDependency(ContentProductWidgetDependencyProvider::CLIENT_PRODUCT_STORAGE);
