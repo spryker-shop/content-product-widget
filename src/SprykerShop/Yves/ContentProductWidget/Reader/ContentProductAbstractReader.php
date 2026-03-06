@@ -13,25 +13,15 @@ use SprykerShop\Yves\ContentProductWidget\Dependency\Client\ContentProductWidget
 class ContentProductAbstractReader implements ContentProductAbstractReaderInterface
 {
     /**
-     * @var \SprykerShop\Yves\ContentProductWidget\Dependency\Client\ContentProductWidgetToContentProductClientBridgeInterface
-     */
-    protected $contentProductClient;
-
-    /**
-     * @var \SprykerShop\Yves\ContentProductWidget\Dependency\Client\ContentProductWidgetToProductStorageClientBridgeInterface
-     */
-    protected $productStorageClient;
-
-    /**
      * @param \SprykerShop\Yves\ContentProductWidget\Dependency\Client\ContentProductWidgetToContentProductClientBridgeInterface $contentProductClient
      * @param \SprykerShop\Yves\ContentProductWidget\Dependency\Client\ContentProductWidgetToProductStorageClientBridgeInterface $productStorageClient
+     * @param array<\SprykerShop\Yves\ContentProductWidget\Dependency\Plugin\ContentProductAbstractCollectionExpanderPluginInterface> $productAbstractCollectionExpanderPlugins
      */
     public function __construct(
-        ContentProductWidgetToContentProductClientBridgeInterface $contentProductClient,
-        ContentProductWidgetToProductStorageClientBridgeInterface $productStorageClient
+        protected ContentProductWidgetToContentProductClientBridgeInterface $contentProductClient,
+        protected ContentProductWidgetToProductStorageClientBridgeInterface $productStorageClient,
+        protected array $productAbstractCollectionExpanderPlugins
     ) {
-        $this->contentProductClient = $contentProductClient;
-        $this->productStorageClient = $productStorageClient;
     }
 
     /**
@@ -48,10 +38,24 @@ class ContentProductAbstractReader implements ContentProductAbstractReaderInterf
             return null;
         }
 
-        $productAbstractViewCollection = $this
+        $productViewTransferCollection = $this
             ->productStorageClient
             ->getProductAbstractViewTransfers($contentProductAbstractListTypeTransfer->getIdProductAbstracts(), $localeName);
 
-        return $productAbstractViewCollection;
+        return $this->expandProductViewTransfers($productViewTransferCollection);
+    }
+
+    /**
+     * @param array<\Generated\Shared\Transfer\ProductViewTransfer> $productViewTransferCollection
+     *
+     * @return array<\Generated\Shared\Transfer\ProductViewTransfer>
+     */
+    protected function expandProductViewTransfers(array $productViewTransferCollection): array
+    {
+        foreach ($this->productAbstractCollectionExpanderPlugins as $collectionExpanderPlugin) {
+            $productViewTransferCollection = $collectionExpanderPlugin->expand($productViewTransferCollection);
+        }
+
+        return $productViewTransferCollection;
     }
 }

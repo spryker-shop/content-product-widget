@@ -14,34 +14,21 @@ use SprykerShop\Yves\ContentProductWidget\Dependency\Client\ContentProductWidget
 
 class ContentProductWidgetDependencyProvider extends AbstractBundleDependencyProvider
 {
-    /**
-     * @var string
-     */
-    public const CLIENT_PRODUCT_STORAGE = 'CLIENT_PRODUCT_STORAGE';
+    public const string CLIENT_PRODUCT_STORAGE = 'CLIENT_PRODUCT_STORAGE';
 
-    /**
-     * @var string
-     */
-    public const CLIENT_CONTENT_PRODUCT = 'CLIENT_CONTENT_PRODUCT';
+    public const string CLIENT_CONTENT_PRODUCT = 'CLIENT_CONTENT_PRODUCT';
 
-    /**
-     * @param \Spryker\Yves\Kernel\Container $container
-     *
-     * @return \Spryker\Yves\Kernel\Container
-     */
+    public const string PLUGINS_CONTENT_PRODUCT_ABSTRACT_COLLECTION_EXPANDER = 'PLUGINS_CONTENT_PRODUCT_ABSTRACT_COLLECTION_EXPANDER';
+
     public function provideDependencies(Container $container): Container
     {
         $container = $this->addContentProductClient($container);
         $container = $this->addProductStorageClient($container);
+        $container = $this->addContentProductAbstractCollectionExpanderPlugins($container);
 
         return $container;
     }
 
-    /**
-     * @param \Spryker\Yves\Kernel\Container $container
-     *
-     * @return \Spryker\Yves\Kernel\Container
-     */
     protected function addContentProductClient(Container $container): Container
     {
         $container->set(static::CLIENT_CONTENT_PRODUCT, function (Container $container) {
@@ -51,11 +38,6 @@ class ContentProductWidgetDependencyProvider extends AbstractBundleDependencyPro
         return $container;
     }
 
-    /**
-     * @param \Spryker\Yves\Kernel\Container $container
-     *
-     * @return \Spryker\Yves\Kernel\Container
-     */
     protected function addProductStorageClient(Container $container): Container
     {
         $container->set(static::CLIENT_PRODUCT_STORAGE, function (Container $container) {
@@ -63,5 +45,22 @@ class ContentProductWidgetDependencyProvider extends AbstractBundleDependencyPro
         });
 
         return $container;
+    }
+
+    protected function addContentProductAbstractCollectionExpanderPlugins(Container $container): Container
+    {
+        $container->set(static::PLUGINS_CONTENT_PRODUCT_ABSTRACT_COLLECTION_EXPANDER, function () {
+            return $this->getContentProductAbstractCollectionExpanderPlugins();
+        });
+
+        return $container;
+    }
+
+    /**
+     * @return array<\SprykerShop\Yves\ContentProductWidget\Dependency\Plugin\ContentProductAbstractCollectionExpanderPluginInterface>
+     */
+    protected function getContentProductAbstractCollectionExpanderPlugins(): array
+    {
+        return [];
     }
 }
