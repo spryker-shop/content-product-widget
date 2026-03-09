@@ -44,7 +44,16 @@ class ContentProductWidgetFactory extends AbstractFactory
         return new ContentProductAbstractReader(
             $this->getContentProductClient(),
             $this->getProductStorageClient(),
+            $this->getContentProductAbstractCollectionExpanderPlugins(),
         );
+    }
+
+    /**
+     * @return array<\SprykerShop\Yves\ContentProductWidget\Dependency\Plugin\ContentProductAbstractCollectionExpanderPluginInterface>
+     */
+    public function getContentProductAbstractCollectionExpanderPlugins(): array
+    {
+        return $this->getProvidedDependency(ContentProductWidgetDependencyProvider::PLUGINS_CONTENT_PRODUCT_ABSTRACT_COLLECTION_EXPANDER);
     }
 
     public function getContentProductClient(): ContentProductWidgetToContentProductClientBridgeInterface
